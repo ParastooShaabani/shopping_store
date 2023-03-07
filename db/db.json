@@ -1,0 +1,67 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "userImage": "assets/images/welcome.png",
+      "userName": "e@gmail.com",
+      "userPassword": "pari@gmail.com",
+      "userPhone": "985",
+      "userAddress": "ffff",
+      "userEmail": "e@gmail.com"
+    },
+    {
+      "id": 2,
+      "userImage": "assets/images/welcome.png",
+      "userName": "e@gmail.com",
+      "userPassword": "pari@gmail.com",
+      "userPhone": "985",
+      "userAddress": "ffff",
+      "userEmail": "e@gmail.com"
+    }
+  ],
+  "product": [
+    {
+      "id": 1,
+      "productImage": "assets/images/welcome.png",
+      "productName": "ماشین لباسشویی",
+      "productDescription": "دو قلو",
+      "productTime": "3 روز",
+      "productPrice": 50000,
+      "productByDiscountPrice": 20000,
+      "isProductExist": true,
+      "productRating": 3.5,
+      "productCount": 12
+    },
+    {
+      "id": 2,
+      "productImage": "assets/images/welcome.png",
+      "productName": "ماشین لباسشویی",
+      "productDescription": "دو قلو",
+      "productTime": "3 روز",
+      "productPrice": 50000,
+      "productByDiscountPrice": 20000,
+      "isProductExist": true,
+      "productRating": 3.5,
+      "productCount": 12
+    },
+    {
+      "id": 3,
+      "productImage": "assets/images/welcome.png",
+      "productName": "ماشین لباسشویی",
+      "productDescription": "دو قلو",
+      "productTime": "3 روز",
+      "productPrice": 50000,
+      "productByDiscountPrice": 20000,
+      "isProductExist": true,
+      "productRating": 3.5,
+      "productCount": 12
+    }
+  ],
+  "BasketItemsModel": [
+    {
+      "id": 1,
+      "userId": 3,
+      "productList": []
+    }
+  ]
+}
