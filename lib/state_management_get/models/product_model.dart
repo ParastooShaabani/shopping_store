@@ -9,7 +9,9 @@ class ProductModel {
       this.productByDiscountPrice, 
       this.isProductExist, 
       this.productRating, 
-      this.productCount,});
+      this.productCount, 
+      this.isSelectedProduct, 
+      this.isFavorite,});
 
   ProductModel.fromJson(dynamic json) {
     id = json['id'];
@@ -22,6 +24,8 @@ class ProductModel {
     isProductExist = json['isProductExist'];
     productRating = json['productRating'];
     productCount = json['productCount'];
+    isSelectedProduct = json['isSelectedProduct'];
+    isFavorite = json['isFavorite'];
   }
   num? id;
   String? productImage;
@@ -33,6 +37,8 @@ class ProductModel {
   bool? isProductExist;
   num? productRating;
   num? productCount;
+  bool? isSelectedProduct;
+  bool? isFavorite;
 ProductModel copyWith({  num? id,
   String? productImage,
   String? productName,
@@ -43,6 +49,8 @@ ProductModel copyWith({  num? id,
   bool? isProductExist,
   num? productRating,
   num? productCount,
+  bool? isSelectedProduct,
+  bool? isFavorite,
 }) => ProductModel(  id: id ?? this.id,
   productImage: productImage ?? this.productImage,
   productName: productName ?? this.productName,
@@ -53,6 +61,8 @@ ProductModel copyWith({  num? id,
   isProductExist: isProductExist ?? this.isProductExist,
   productRating: productRating ?? this.productRating,
   productCount: productCount ?? this.productCount,
+  isSelectedProduct: isSelectedProduct ?? this.isSelectedProduct,
+  isFavorite: isFavorite ?? this.isFavorite,
 );
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -66,6 +76,8 @@ ProductModel copyWith({  num? id,
     map['isProductExist'] = isProductExist;
     map['productRating'] = productRating;
     map['productCount'] = productCount;
+    map['isSelectedProduct'] = isSelectedProduct;
+    map['isFavorite'] = isFavorite;
     return map;
   }
 

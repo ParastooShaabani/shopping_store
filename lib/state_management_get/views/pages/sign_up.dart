@@ -9,6 +9,7 @@ import 'package:shopping_store/state_management_get/views/widgets/my_text_field.
 
 class SignUp extends StatelessWidget {
   SignUp({Key? key}) : super(key: key);
+
   final _formKey = GlobalKey<FormState>();
 
   final LoginSignUpController loginSignUpController =
@@ -45,14 +46,12 @@ class SignUp extends StatelessWidget {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return FixedVariables.errorEmpty;
-                              }
-                              else if (!loginSignUpController
-                                    .checkEmailFormat(value)
-                                    .value) {
-                                  return FixedVariables.errorEmailFormat;
-                                }
-                              else if(userController.userExist(userController.userEmailController.text))
-                              {
+                              } else if (!loginSignUpController
+                                  .checkEmailFormat(value)
+                                  .value) {
+                                return FixedVariables.errorEmailFormat;
+                              } else if (userController.userExist(
+                                  userController.userEmailController.text)) {
                                 return FixedVariables.errorDoubleAccount;
                               }
 

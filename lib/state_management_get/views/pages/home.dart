@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopping_store/fixed_variables.dart';
 import 'package:shopping_store/state_management_get/controllers/home_controller.dart';
+import 'package:shopping_store/state_management_get/controllers/product_controller.dart';
 import 'package:shopping_store/state_management_get/views/pages/all_product.dart';
 import 'package:shopping_store/state_management_get/views/pages/bag.dart';
 import 'package:shopping_store/state_management_get/views/pages/profile.dart';
@@ -15,19 +16,22 @@ class Home extends StatelessWidget {
 
   final HomeController homeController = Get.put(HomeController());
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          _imagesSlider(),
-          _buildRowOfText('جدید ترین ها'),
-          _buildListView(),
-          FixedVariables.normalHeight,
-          _buildRowOfText('پر طرفدار ترین ها'),
-          _buildListView(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _imagesSlider(),
+            _buildRowOfText('جدید ترین ها'),
+            _buildListView(),
+            FixedVariables.normalHeight,
+            _buildRowOfText('پر طرفدار ترین ها'),
+            _buildListView(),
+          ],
+        ),
       ),
     );
   }

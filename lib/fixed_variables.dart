@@ -18,10 +18,10 @@ class FixedVariables {
   static String errorEmpty = 'فیلد خالی می باشد';
   static String errorWrongLogin = 'اطلاعات وارد شده صحیح نمی باشد';
   static String errorEmailFormat = 'فرمت ایمیل درست نیست';
-  static String errorDoubleAccount = 'با این امیل قبلا حساب ساخته شده است';
+  static String errorDoubleAccount = 'با این ایمیل قبلا حساب ساخته شده است';
   static String errorPassFormat = 'فرمت پسوورد درست نیست';
   static String errorPassIncorrect = 'پسوورد درست نیست';
   static String errorPhoneNumFormat = 'فرمت شماره تماس درست نیست';
-  static String errorAddress = 'آدرس کوتاهاست';
+  static String errorAddress = 'آدرس کوتاه است';
   static String shopName = 'آسان مارکت';
 }

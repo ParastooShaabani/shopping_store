@@ -44,4 +44,4 @@ class BasketItemsModel {
   }
 }
 
-List<ProductModel> itemsInBasketList = [];
+List<ProductModel> productList = [];

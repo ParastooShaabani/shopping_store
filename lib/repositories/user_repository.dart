@@ -6,19 +6,20 @@ class UserRepository {
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: 'http://localhost:3000/',
-      receiveDataWhenStatusError: true,
+      // receiveDataWhenStatusError: true,
     ),
   );
 
-  Future<Either<String, List<UserModel>>> getUsers() async {
-    var userList = await _dio.get('user');
+  Future<List<UserModel>> getUsers() async{
+    var response = await _dio.get('user');
     try {
-      final result = userList.data
-          .map<UserModel>((e) => UserModel.fromJson(e))
-          .toList();
-      return Right(result);
+      final userResult = await response.data.map<UserModel>((element) {
+        return UserModel.fromJson(element);
+      }).toList();
+      return userResult;
     } catch (e) {
-      return Left('left part ${e.toString()}');
+      print('****get user error*****: ${e.toString()}');
+      return throw e.toString();
     }
   }
 
@@ -32,6 +33,11 @@ class UserRepository {
       return Left('left part add user errorrrrr ${e.toString()}');
     }
   }
+
+
+
+
+
 
   Future<UserModel> editUser({required UserModel editedUser, required num userId}) async{
     try{

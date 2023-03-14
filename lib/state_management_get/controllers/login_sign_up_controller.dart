@@ -1,40 +1,14 @@
-import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginSignUpController extends GetxController {
-
-  // for Profile & CompleteInformation
-  File? imageFile;
-  void removeProfileImage() {
-    imageFile = null;
-    update();
-  }
-
-  // for Login
-  final _formKey = GlobalKey<FormState>();
-
-  GlobalKey<FormState> get formKey => _formKey;
-
-  // bool checkFieldValidation() {
-  //   return _formKey.currentState!.validate();
-  // }
-
   RxBool emailFormat = false.obs;
   RxBool isSecurePass = true.obs;
   RxBool isSecureConfPass = true.obs;
 
-  // RxString _registeredEmail = ''.obs;
-  // RxString _registeredPassword = ''.obs;
 
   String pass = '';
   String conPass = '';
 
-  // RxBool checkInformation(String email, String password) {
-  //   return (email == _registeredEmail).obs;
-  //   // && password == _registeredPassword;
-  // }
 
   RxBool checkEmailFormat(String value) {
     emailFormat = ((value.contains('@gmail.com')) ? true : false).obs;
@@ -51,7 +25,7 @@ class LoginSignUpController extends GetxController {
 
   bool checkTruePass(String? pass, String conPass) {
     bool samePass = (pass == conPass) && (pass!.isNotEmpty);
-   // _registeredPassword.value = samePass ? pass : '';
+    // _registeredPassword.value = samePass ? pass : '';
     return samePass;
   }
 

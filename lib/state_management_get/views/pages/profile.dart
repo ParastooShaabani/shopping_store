@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopping_store/fixed_variables.dart';
+import 'package:shopping_store/state_management_get/controllers/favorite_controller.dart';
 import 'package:shopping_store/state_management_get/controllers/login_sign_up_controller.dart';
+import 'package:shopping_store/state_management_get/controllers/profile_controller.dart';
+import 'package:shopping_store/state_management_get/controllers/user_controller.dart';
+import 'package:shopping_store/state_management_get/models/user_model.dart';
 import 'package:shopping_store/state_management_get/views/pages/welcome.dart';
 import 'package:shopping_store/state_management_get/views/widgets/my_button.dart';
 import 'package:shopping_store/state_management_get/views/widgets/my_dialog.dart';
@@ -13,61 +17,131 @@ import 'package:shopping_store/state_management_get/views/widgets/my_text_field.
 class Profile extends StatelessWidget {
   Profile({Key? key}) : super(key: key);
 
+  final _formKey = GlobalKey<FormState>();
+  final UserController userController = Get.put(UserController());
+  final ProfileController profileController = Get.put(ProfileController());
+  final FavoritesController favoritesController = Get.put(FavoritesController());
   final LoginSignUpController loginSignUpController =
       Get.put(LoginSignUpController());
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 25, right: 20, left: 20),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    FixedVariables.normalHeight,
-                    Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: Row(
-                        children: [
-                          _buildMyText(
-                            'اطلاعات کاربری',
-                            28,
-                            FixedVariables.purple1,
-                          ),
-                          const Spacer(),
-                          InkWell(
-                            child: _buildMyText(
-                                'خروج از حساب کاربری', 20, FixedVariables.red),
-                            onTap: () {
-                              Get.to(() => const Welcome());
-                            },
-                          ),
-                        ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 25, right: 20, left: 20),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      FixedVariables.normalHeight,
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Row(
+                          children: [
+                            _buildMyText(
+                              'اطلاعات کاربری',
+                              28,
+                              FixedVariables.purple1,
+                            ),
+                            const Spacer(),
+                            InkWell(
+                              child: _buildMyText('خروج از حساب کاربری', 20,
+                                  FixedVariables.red),
+                              onTap: () {
+                                print('tap khoruj before');
+                                userController.exitAccount(profileController
+                                    .userEmailProfileController.text);
+                                favoritesController.removeFavorite();
+                                print('tap khoruj after');
+                                Get.to(() => const Welcome());
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    _buildProfilePicture(context),
-                    _buildMyTextField('ایمیل'),
-                    _buildMyTextField('نام کاربری'),
-                    FixedVariables.littleHeight,
-                    Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: _buildMyText(
-                        'در صورتی که نمی خواهید رمز را تغییر دهید، فیلد زیر را خالی بگذارید',
-                        18,
-                        Colors.black,
+                      _buildProfilePicture(context),
+                      _buildMyTextField(
+                        labelText: 'ایمیل',
+                        controller:
+                            profileController.userEmailProfileController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return FixedVariables.errorEmpty;
+                          } else if (!loginSignUpController
+                              .checkEmailFormat(value)
+                              .value) {
+                            return FixedVariables.errorEmailFormat;
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          loginSignUpController.checkEmailFormat(value!);
+                        },
                       ),
-                    ),
-                    _buildMyTextField('رمز عبور فعلی'),
-                    _buildMyTextField('رمز عبور جدید'),
-                    FixedVariables.bigHeight,
-                    _buildMyButton('ثبت تغییرات'),
-                  ]),
-            ),
-          ],
+                      _buildMyTextField(
+                          labelText: 'نام کاربری',
+                          controller:
+                              profileController.userNameProfileController),
+                      _buildMyTextField(
+                        labelText: 'رمز عبور',
+                        controller:
+                            profileController.userPasswordProfileController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return FixedVariables.errorEmpty;
+                          } else {
+                            if (!loginSignUpController
+                                .checkPasswordFormat(value)
+                                .value) {
+                              return FixedVariables.errorPassFormat;
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                      _buildMyTextField(
+                        labelText: 'شماره تماس',
+                        controller:
+                            profileController.userPhoneProfileController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return FixedVariables.errorEmpty;
+                          } else {
+                            if (!value.startsWith('0') || (value.length < 11)) {
+                              return FixedVariables.errorPhoneNumFormat;
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                      _buildMyTextField(
+                        labelText: 'آدرس',
+                        controller:
+                            profileController.userAddressProfileController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return FixedVariables.errorEmpty;
+                          } else {
+                            if (value.length < 15) {
+                              return FixedVariables.errorAddress;
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                      FixedVariables.bigHeight,
+                      _buildMyButton('ثبت تغییرات'),
+                    ]),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -85,7 +159,21 @@ class Profile extends StatelessWidget {
     return MyButton(
       text: text,
       textColor: Colors.white,
-      onPressed: () {},
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          UserModel user = UserModel(
+            id: userController.readUserFromPref()['id'],
+            userName: profileController.userNameProfileController.text,
+            userEmail: profileController.userEmailProfileController.text,
+            userPassword: profileController.userPasswordProfileController.text,
+            userPhone: profileController.userPhoneProfileController.text,
+            userAddress: profileController.userAddressProfileController.text,
+          );
+
+          userController.editUser(user);
+          Get.snackbar('Update Message', 'اطلاعات کاربر به روز رسانی شد');
+        }
+      },
       backgroundColor: FixedVariables.purple1,
       borderSideColor: FixedVariables.purple1,
       borderSideWidth: 2,
@@ -97,14 +185,20 @@ class Profile extends StatelessWidget {
     );
   }
 
-  Widget _buildMyTextField(String hintText) {
+  Widget _buildMyTextField(
+      {String? labelText,
+      TextEditingController? controller,
+      String? Function(String?)? validator,
+      Function(String?)? onChanged}) {
     return MyTextField(
+      labelText: labelText,
+      controller: controller,
+      validator: validator,
       textColor: Colors.purple,
       borderRadius: 25,
       colorBorderSide: FixedVariables.purple1,
       fontSize: 20,
-      hintText: hintText,
-      secure: true,
+      secure: false,
       paddingSize: 20,
     );
   }
@@ -154,7 +248,7 @@ class Profile extends StatelessWidget {
       maxHeight: 500,
     );
     if (pickedFile != null) {
-      loginSignUpController.imageFile = File(pickedFile.path);
+      userController.imageFile = File(pickedFile.path);
     }
   }
 
@@ -165,7 +259,7 @@ class Profile extends StatelessWidget {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
-      loginSignUpController.imageFile = File(pickedFile.path);
+      userController.imageFile = File(pickedFile.path);
     }
   }
 }

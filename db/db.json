@@ -2,21 +2,21 @@
   "user": [
     {
       "id": 1,
-      "userImage": "assets/images/welcome.png",
+      "userImage": null,
       "userName": "e@gmail.com",
-      "userPassword": "pari@gmail.com",
-      "userPhone": "985",
-      "userAddress": "ffff",
+      "userPassword": "Ee1ttt223@",
+      "userPhone": "09365521978",
+      "userAddress": "kkkkkkkkkkkkkkk",
       "userEmail": "e@gmail.com"
     },
     {
       "id": 2,
-      "userImage": "assets/images/welcome.png",
-      "userName": "e@gmail.com",
-      "userPassword": "pari@gmail.com",
-      "userPhone": "985",
-      "userAddress": "ffff",
-      "userEmail": "e@gmail.com"
+      "userImage": null,
+      "userName": "tt@gmail.com",
+      "userPassword": "Ee1ttt223@",
+      "userPhone": "09365521978",
+      "userAddress": "kkkkkkkkkkkkkkk",
+      "userEmail": "tt@gmail.com"
     }
   ],
   "product": [
@@ -30,31 +30,37 @@
       "productByDiscountPrice": 20000,
       "isProductExist": true,
       "productRating": 3.5,
-      "productCount": 12
+      "productCount": 12,
+      "isSelectedProduct": false,
+      "isFavorite": false
     },
     {
       "id": 2,
       "productImage": "assets/images/welcome.png",
-      "productName": "ماشین لباسشویی",
-      "productDescription": "دو قلو",
+      "productName": "ماشین ",
+      "productDescription": "5 قلو",
       "productTime": "3 روز",
       "productPrice": 50000,
       "productByDiscountPrice": 20000,
       "isProductExist": true,
       "productRating": 3.5,
-      "productCount": 12
+      "productCount": 12,
+      "isSelectedProduct": false,
+      "isFavorite": false
     },
     {
       "id": 3,
       "productImage": "assets/images/welcome.png",
-      "productName": "ماشین لباسشویی",
-      "productDescription": "دو قلو",
+      "productName": " لباسشویی",
+      "productDescription": "4 قلو",
       "productTime": "3 روز",
       "productPrice": 50000,
       "productByDiscountPrice": 20000,
       "isProductExist": true,
       "productRating": 3.5,
-      "productCount": 12
+      "productCount": 12,
+      "isSelectedProduct": false,
+      "isFavorite": false
     }
   ],
   "BasketItemsModel": [
@@ -62,6 +68,76 @@
       "id": 1,
       "userId": 3,
       "productList": []
+    }
+  ],
+  "favorites": [
+    {
+      "id": 1,
+      "userId": 1,
+      "favoritesProduct": [
+        {
+          "id": 1,
+          "productImage": "assets/images/welcome.png",
+          "productName": "ماشین لباسشویی",
+          "productDescription": "دو قلو",
+          "productTime": "3 روز",
+          "productPrice": 50000,
+          "productByDiscountPrice": 20000,
+          "isProductExist": true,
+          "productRating": 3.5,
+          "productCount": 12,
+          "isSelectedProduct": false,
+          "isFavorite": true
+        },
+        {
+          "id": 1,
+          "productImage": "assets/images/welcome.png",
+          "productName": "ماشین لباسشویی",
+          "productDescription": "دو قلو",
+          "productTime": "3 روز",
+          "productPrice": 50000,
+          "productByDiscountPrice": 20000,
+          "isProductExist": true,
+          "productRating": 3.5,
+          "productCount": 12,
+          "isSelectedProduct": false,
+          "isFavorite": true
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "favoritesProduct": [
+        {
+          "id": 3,
+          "productImage": "assets/images/welcome.png",
+          "productName": " لباسشویی",
+          "productDescription": "4 قلو",
+          "productTime": "3 روز",
+          "productPrice": 50000,
+          "productByDiscountPrice": 20000,
+          "isProductExist": true,
+          "productRating": 3.5,
+          "productCount": 12,
+          "isSelectedProduct": false,
+          "isFavorite": true
+        },
+        {
+          "id": 2,
+          "productImage": "assets/images/welcome.png",
+          "productName": "ماشین ",
+          "productDescription": "5 قلو",
+          "productTime": "3 روز",
+          "productPrice": 50000,
+          "productByDiscountPrice": 20000,
+          "isProductExist": true,
+          "productRating": 3.5,
+          "productCount": 12,
+          "isSelectedProduct": false,
+          "isFavorite": true
+        }
+      ]
     }
   ]
 }

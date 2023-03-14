@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopping_store/fixed_variables.dart';
-import 'package:shopping_store/state_management_get/controllers/login_sign_up_controller.dart';
 import 'package:shopping_store/state_management_get/controllers/user_controller.dart';
 import 'package:shopping_store/state_management_get/models/user_model.dart';
 import 'package:shopping_store/state_management_get/views/pages/welcome.dart';
@@ -19,10 +18,8 @@ class CompleteInformation extends StatefulWidget {
 }
 
 class _CompleteInformationState extends State<CompleteInformation> {
-  final LoginSignUpController loginSignUpController =
-      Get.find<LoginSignUpController>();
-
   final UserController userController = Get.put(UserController());
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +27,7 @@ class _CompleteInformationState extends State<CompleteInformation> {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
-          key: loginSignUpController.formKey,
+          key: _formKey,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -96,7 +93,7 @@ class _CompleteInformationState extends State<CompleteInformation> {
       text: text,
       textColor: Colors.white,
       onPressed: () {
-        if (loginSignUpController.formKey.currentState!.validate()) {
+        if (_formKey.currentState!.validate()) {
           UserModel user = UserModel(
             userName: userController.userNameController.text,
             userPassword: userController.userPasswordController.text,
@@ -105,7 +102,7 @@ class _CompleteInformationState extends State<CompleteInformation> {
             userAddress: userController.userAddressController.text,
           );
           userController.addUser(user);
-          print('do you save??');
+
           Get.to(() => const Welcome());
         }
       },
@@ -138,12 +135,6 @@ class _CompleteInformationState extends State<CompleteInformation> {
       paddingSize: 20,
       onChanged: onChanged,
       validator: validator,
-      //     (value) {
-      //   if (value!.isEmpty) {
-      //     return FixedVariables.errorEmpty;
-      //   }
-      //   return null;
-      // }
     );
   }
 
@@ -177,8 +168,7 @@ class _CompleteInformationState extends State<CompleteInformation> {
                   Navigator.pop(context);
                   _getFromGallery();
                 },
-                onPressedCh2: // ignore: invalid_use_of_visible_for_testing_member
-                    () {
+                onPressedCh2: () {
                   Navigator.pop(context);
                   _getFromCamera();
                 },
@@ -193,7 +183,7 @@ class _CompleteInformationState extends State<CompleteInformation> {
       maxHeight: 500,
     );
     if (pickedFile != null) {
-      loginSignUpController.imageFile = File(pickedFile.path);
+      userController.imageFile = File(pickedFile.path);
     }
   }
 
@@ -204,7 +194,7 @@ class _CompleteInformationState extends State<CompleteInformation> {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
-      loginSignUpController.imageFile = File(pickedFile.path);
+      userController.imageFile = File(pickedFile.path);
     }
   }
 }

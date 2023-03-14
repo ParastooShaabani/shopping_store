@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +14,7 @@ class UserController extends GetxController {
   SharedPreferences? adminShPref;
   UserModel? loginUser;
 
+  // for Sign Up
   TextEditingController userNameController = TextEditingController();
   TextEditingController userPasswordController = TextEditingController();
   TextEditingController userConfPasswordController = TextEditingController();
@@ -20,27 +22,55 @@ class UserController extends GetxController {
   TextEditingController userAddressController = TextEditingController();
   TextEditingController userEmailController = TextEditingController();
 
-  @override
-  void onInit() {
-    super.onInit();
-    getUsers();
-    getInstanceSharedPref();
+  // for Login
+  TextEditingController userEmailLoginController = TextEditingController();
+  TextEditingController userPassLoginController = TextEditingController();
+
+  // for Login
+  final _formKey = GlobalKey<FormState>();
+
+  GlobalKey<FormState> get formKey => _formKey;
+
+  // for Profile & CompleteInformation
+  File? imageFile;
+
+  void removeProfileImage() {
+    imageFile = null;
+    update();
   }
 
-  Future<void> getUsers() async {
-    final resultOrError = await _userRepository.getUsers();
-    resultOrError.fold((left) {
-      print('left $left');
-    }, (List<UserModel> receivedUserList) {
-      userList = receivedUserList.obs;
+  @override
+  void onInit() {
+    getUsers();
+    getInstanceSharedPref();
+    super.onInit();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    userNameController.dispose();
+    userPasswordController.dispose();
+    userConfPasswordController.dispose();
+    userPhoneController.dispose();
+    userAddressController.dispose();
+    userEmailController.dispose();
+
+    userEmailLoginController.dispose();
+    userPassLoginController.dispose();
+  }
+
+  void getUsers() {
+    _userRepository.getUsers().then((value) {
+      userList = value;
     });
-    update();
   }
 
   Future<void> addUser(UserModel user) async {
-    _userRepository.postUsers(newUser: user);
-    // saveUserToShPref(user);
-    update();
+    await _userRepository.postUsers(newUser: user).then((value) {
+   //   saveUserToShPref(user);
+    });
   }
 
   Future<void> editUser(UserModel user) async {
@@ -92,17 +122,19 @@ class UserController extends GetxController {
       adminShPref!.setString('admin', jsonEncode(userModel));
     }
   }
-  void exitAccount(UserModel user) {
-    if (user.userName!.contains('admin')) {
+
+  void exitAccount(String email) {
+    if (email!.contains('admin')) {
       adminShPref!.remove('admin');
-    }
-    else {
+      print('in admin hazf shod');
+    } else {
       userShPref!.remove('user');
+      print('in user hazf shod');
     }
   }
 
   Map<String, dynamic> readUserFromPref() {
-    print('userPref : $userShPref');
+    // print('userPref : $userShPref');
     String? user = userShPref!.getString('user');
     return jsonDecode(user!) as Map<String, dynamic>;
   }

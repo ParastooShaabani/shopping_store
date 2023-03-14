@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopping_store/fixed_variables.dart';
+import 'package:shopping_store/state_management_get/controllers/home_controller.dart';
+import 'package:shopping_store/state_management_get/controllers/product_controller.dart';
 import 'package:shopping_store/state_management_get/views/pages/all_product.dart';
 import 'package:shopping_store/state_management_get/views/widgets/my_button.dart';
 import 'package:shopping_store/state_management_get/views/widgets/my_dialog.dart';
@@ -8,6 +10,11 @@ import 'package:shopping_store/state_management_get/views/widgets/my_text.dart';
 
 class Bag extends StatelessWidget {
   Bag({Key? key}) : super(key: key);
+  ProductController productController =
+  Get.put(ProductController());
+  HomeController homeController =
+  Get.find<HomeController>();
+
   int count = 3;
 
   @override
@@ -26,13 +33,14 @@ class Bag extends StatelessWidget {
                       textDirection: TextDirection.rtl,
                       child: Row(
                         children: [
-                          _buildMyText('سبد خرید', 30, FixedVariables.purple1,
+                          _buildMyText(
+                              'سبد خرید', 30, FixedVariables.purple1,
                               FontWeight.bold),
                           IconButton(
                               onPressed: () {},
                               icon: const Icon(Icons.refresh)),
                           const Spacer(),
-                          _buildMyText(' $count  مورد ', 20,
+                          _buildMyText(' مورد  ${homeController.chooseProducts!.length}', 20,
                               FixedVariables.purple1, FontWeight.normal),
                         ],
                       ),
@@ -44,17 +52,28 @@ class Bag extends StatelessWidget {
                         FixedVariables.red,
                         FontWeight.normal),
                     FixedVariables.normalHeight,
-                    Center(
-                        child: (count == 0)
-                            ? Column(
+                    GetBuilder<ProductController>(
+                      assignId: true,
+                      builder: (productController) {
+                        return Center(
+
+                            child: (homeController.chooseProducts!
+                                .isEmpty)
+                                ? Column(
                               children: [
                                 const SizedBox(height: 170,),
                                 _buildMyText('سبد خرید خالی می باشد', 20,
-                                FixedVariables.purple1, FontWeight.normal),
+                                    FixedVariables.purple1, FontWeight.normal),
                                 const SizedBox(height: 170,),
                               ],
                             )
-                            : _buildListView()),
+                                :
+                            // Text('Can you dee me?')
+                            _buildListView()
+
+                        );
+                      },
+                    ),
                     FixedVariables.normalHeight,
                     Directionality(
                       textDirection: TextDirection.rtl,
@@ -87,6 +106,7 @@ class Bag extends StatelessWidget {
           ],
         ),
       ),
+
     );
   }
 
@@ -104,7 +124,8 @@ class Bag extends StatelessWidget {
     return SizedBox(
       height: 400,
       child: ListView.builder(
-        itemCount: 9,
+        itemCount: homeController.chooseProducts!.length,
+
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(2.0),
@@ -129,12 +150,20 @@ class Bag extends StatelessWidget {
                             const SizedBox(
                               height: 5,
                             ),
-                            _buildMyText('نام محصول', 20,
-                                FixedVariables.purple1, FontWeight.normal),
-                            _buildMyText(' قیمت اصلی : $countتومان ', 20,
-                                FixedVariables.purple1, FontWeight.normal),
-                            _buildMyText(' قیمت با تخفیف : ${count - 1}تومان  ',
-                                20, FixedVariables.purple1, FontWeight.normal),
+                            Text(homeController.chooseProducts![index].productName!),
+                            //         .productName
+                            // _buildMyText(
+                            //     homeController.chooseProducts![index]
+                            //         .productName.toString(), 20,
+                            //     FixedVariables.purple1, FontWeight.normal),
+                            // _buildMyText(' تومان ${productController
+                            //     .chooseProductsList[index].productPrice}',
+                            //     20,
+                            //     FixedVariables.purple1, FontWeight.normal),
+                            _buildMyText(
+                                ' قیمت با تخفیف : ${count - 1}تومان  ',
+                                20, FixedVariables.purple1,
+                                FontWeight.normal),
                             Row(
                               children: [
                                 IconButton(
@@ -146,7 +175,8 @@ class Bag extends StatelessWidget {
                                       color: Colors.red,
                                     )),
                                 _buildMyText(' $count ', 20,
-                                    FixedVariables.purple1, FontWeight.normal),
+                                    FixedVariables.purple1,
+                                    FontWeight.normal),
                                 IconButton(
                                     onPressed: () {
                                       count--;
@@ -198,18 +228,18 @@ class Bag extends StatelessWidget {
               textDirection: TextDirection.rtl,
               child: MyDialog(
                 textChoice1: 'منم خوشحالم',
-                  textChoice2: 'نیاز به تلاش بیشتر',
-                  text: 'از خرید و اعتماد شما متشکریم :)',
-                  onPressedCh1:() {
-                    Navigator.pop(context);
-                    Get.to(AllProduct());
-                    count = 0;
-                    },
-                onPressedCh2:() {
-                    Navigator.pop(context);
-                    Get.to(AllProduct());
-                    count = 0;
-                    },
+                textChoice2: 'نیاز به تلاش بیشتر',
+                text: 'از خرید و اعتماد شما متشکریم :)',
+                onPressedCh1: () {
+                  Navigator.pop(context);
+                  Get.to(AllProduct());
+                  count = 0;
+                },
+                onPressedCh2: () {
+                  Navigator.pop(context);
+                  Get.to(AllProduct());
+                  count = 0;
+                },
               ),
             )
     );
